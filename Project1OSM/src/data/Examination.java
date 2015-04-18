@@ -7,12 +7,15 @@ public class Examination {
 	private Boolean HCV_detect_;
 	private Boolean HBS_detect_;
 	
+	private Boolean examination_flag_;
+	
 	private Date test_data_ = new Date();
 	
 	public Examination(){
 		HIV_detect_ = false;
 		HCV_detect_ = false;
 		HBS_detect_ = false;
+		examination_flag_ = false;
 		test_data_.setTime(0);
 	}
 	
@@ -22,7 +25,19 @@ public class Examination {
 		HBS_detect_ = HBS;
 		test_data_ = test_date;
 	}
+	
+	public Boolean getExamination_flag_() {
+		return examination_flag_;
+	}
 
+	public void setExamination_flag_() {
+		this.examination_flag_ = true;
+	}
+	
+	public void eraseExamination_flag_() {
+		this.examination_flag_ = false;
+	}
+	
 	public Boolean getHIV_detect_() {
 		return HIV_detect_;
 	}
@@ -53,5 +68,10 @@ public class Examination {
 
 	public void setTest_data_(Date test_data_) {
 		this.test_data_ = test_data_;
+	}
+	
+	/** methods return object representation w String text */
+	public String toString(){
+		return ("HIV: " + String.valueOf(HIV_detect_) + "; " + "HBS: " + String.valueOf(HBS_detect_) + "; " + "HCV: " + String.valueOf(HCV_detect_));
 	}
 }

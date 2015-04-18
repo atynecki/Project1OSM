@@ -3,19 +3,19 @@ package data;
 public class Patient {
 	private String name_;
 	private String last_name_;
-	private Double ID_num_;
+	private Integer ID_num_;
 	private Boolean sex_;
 	private int insurance_;
 	
 	public Patient(){
 		name_ = null;
 		last_name_ = null;
-		ID_num_ = 0.0;
+		ID_num_ = 0;
 		sex_ = false;
 		insurance_ = 0;
 	}
 	
-	public Patient(String name, String last_name, Double ID_num, Boolean sex, int insurance){
+	public Patient(String name, String last_name, Integer ID_num, Boolean sex, int insurance){
 		name_ = name;
 		last_name_ = last_name;
 		ID_num_ = ID_num;
@@ -39,11 +39,11 @@ public class Patient {
 		this.last_name_ = last_name_;
 	}
 
-	public Double getID_num_() {
+	public Integer getID_num_() {
 		return ID_num_;
 	}
 
-	public void setID_num_(Double iD_num_) {
+	public void setID_num_(Integer iD_num_) {
 		ID_num_ = iD_num_;
 	}
 
@@ -69,5 +69,10 @@ public class Patient {
 			return true;
 		else
 			return false;
+	}
+	
+	/** methods return object representation w String text */
+	public String toString(){
+		return ("[" + name_ + last_name_ + String.valueOf(this.ID_num_) + "]");
 	}
 }
