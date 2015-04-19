@@ -3,6 +3,7 @@ package data;
 public class Patient {
 	private String name_;
 	private String last_name_;
+	private String patient_name_;
 	private Integer ID_num_;
 	private Boolean sex_;
 	private int insurance_;
@@ -74,5 +75,11 @@ public class Patient {
 	/** methods return object representation w String text */
 	public String toString(){
 		return ("[" + name_ + last_name_ + String.valueOf(this.ID_num_) + "]");
+	}
+	
+	public String setPatientName()
+	{
+		patient_name_ = name_ + " " + last_name_;
+		return patient_name_;
 	}
 }

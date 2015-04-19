@@ -70,6 +70,14 @@ public class Examination {
 		this.test_data_ = test_data_;
 	}
 	
+	/** method for compare examinations */
+	public boolean equals(Examination e){
+		if(e==null || this.HBS_detect_ !=e.HBS_detect_ || this.HCV_detect_ !=e.HCV_detect_ || this.HIV_detect_ !=e.HIV_detect_)
+			return false;
+		else
+			return false;
+	}
+	
 	/** methods return object representation w String text */
 	public String toString(){
 		return ("HIV: " + String.valueOf(HIV_detect_) + "; " + "HBS: " + String.valueOf(HBS_detect_) + "; " + "HCV: " + String.valueOf(HCV_detect_));

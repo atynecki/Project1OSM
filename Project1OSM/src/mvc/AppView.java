@@ -15,7 +15,7 @@ public class AppView extends JFrame{
 	//menu view components
 	private JMenuBar appMenuBar = new JMenuBar();
 	private JMenu appMenu = new JMenu("Aplikacja");
-	private JMenuItem appMenuItem = new JMenuItem("Zamknij (ALT+F4)");
+	private JMenuItem appMenuItem = new JMenuItem("Zamknij");
 	
 	//main window panels
 	private JPanel appLeftPanel = new JPanel();
@@ -39,7 +39,7 @@ public class AppView extends JFrame{
 	private JRadioButton appRadioButtonWoman = new JRadioButton("Kobieta");
 	private JRadioButton appRadioButtonMan = new JRadioButton("Mê¿czyzna");
 	//combo box
-	private JComboBox<String> appComcboBoxInsurance = new JComboBox<String>();
+	private JComboBox<String> appComboBoxInsurance = new JComboBox<String>();
 	//action buttons
 	private JButton appButtonPatientSave = new JButton("Zapisz");
 	private JButton appButtonPatientCancel = new JButton("Anuluj");
@@ -137,11 +137,13 @@ public class AppView extends JFrame{
 		insurance[0] = "NFZ";
 		insurance[1] = "Prywatne";
 		insurance[2] = "Brak";
-		appComcboBoxInsurance.setModel(new DefaultComboBoxModel<String>(insurance));
-		appPatientPanel.add(appComcboBoxInsurance);
+		appComboBoxInsurance.setModel(new DefaultComboBoxModel<String>(insurance));
+		appComboBoxInsurance.setSelectedIndex(2);
+		appPatientPanel.add(appComboBoxInsurance);
 		
 		JPanel appActionPanel1 = new JPanel();
 		appActionPanel1.setLayout(new FlowLayout());
+		appButtonPatientSave.setEnabled(false);;
 		appActionPanel1.add(appButtonPatientSave);
 		appActionPanel1.add(appButtonPatientCancel);
 		appPatientPanel.add(appActionPanel1);
@@ -163,6 +165,7 @@ public class AppView extends JFrame{
 		
 		JPanel appActionPanel2 = new JPanel();
 		appActionPanel2.setLayout(new FlowLayout());
+		appButtonExaminationSave.setEnabled(false);
 		appActionPanel2.add(appButtonExaminationSave);
 		appActionPanel2.add(appButtonExaminationCancel);
 		appExaminationPanel.add(appActionPanel2);
@@ -172,22 +175,22 @@ public class AppView extends JFrame{
 		
 		String [] columnNames = { "Imiê i Nazwisko", "PESEL", "P³eæ", "Ubezpieczenie", "Badanie"};
 		Object [] [] data = {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null}
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null}
 		};
 
 		appTableList.setModel(new DefaultTableModel(data,columnNames));
@@ -201,4 +204,45 @@ public class AppView extends JFrame{
 		appActionPanel3.add(appButtonListDelete);
 		appPatientsListPanel.add(appActionPanel3, BorderLayout.PAGE_END);
 	}
+	
+
+	//GETTERS
+	public JButton getAppButtonPatientSave() {
+		return appButtonPatientSave;
+	}
+
+	public JButton getAppButtonPatientCancel() {
+		return appButtonPatientCancel;
+	}
+
+	public JButton getAppButtonExaminationSave() {
+		return appButtonExaminationSave;
+	}
+
+	public JButton getAppButtonExaminationCancel() {
+		return appButtonExaminationCancel;
+	}
+
+	//SET CONTROLLER 
+	public void setController(ActionListener c) {
+		this.appMenuItem.addActionListener(c);
+		this.appButtonPatientSave.addActionListener(c);
+		this.appButtonPatientCancel.addActionListener(c);
+		this.appButtonExaminationSave.addActionListener(c);
+		this.appButtonExaminationCancel.addActionListener(c);
+	}
+	
+	//VIEW CHANGE FUNCTIONS
+	//TODO dokoñczyæ
+	public void cleanPatientView(){
+		appTextFieldName.setText("");
+		appTextFieldSurname.setText("");
+		appTextFieldID.setText("");
+		appComboBoxInsurance.setSelectedIndex(2);
+	}
+	//TODO dokoñczyæ
+	public void cleanExaminationView(){
+		appTextFieldDate.setText("");
+	}
+
 }

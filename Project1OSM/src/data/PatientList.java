@@ -41,4 +41,12 @@ public class PatientList {
 	public void clearPatientList(){
 		patient_list_.clear();
 	}
+	
+	public Patient getPatientData(int ID_num){
+		for(Patient p : patient_list_.keySet()){
+			if(p.getID_num_() == ID_num)
+				return p;
+		}
+		return null;
+	}
 }
