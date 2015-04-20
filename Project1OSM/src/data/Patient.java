@@ -1,85 +1,48 @@
 package data;
 
-public class Patient {
-	private String name_;
-	private String last_name_;
+public class Patient extends Person {
 	private String patient_name_;
-	private Integer ID_num_;
-	private Boolean sex_;
-	private int insurance_;
+	private Examination exam_;
 	
 	public Patient(){
-		name_ = null;
-		last_name_ = null;
-		ID_num_ = 0;
-		sex_ = false;
-		insurance_ = 0;
+		super();
+		patient_name_ = null;
 	}
 	
 	public Patient(String name, String last_name, Integer ID_num, Boolean sex, int insurance){
-		name_ = name;
-		last_name_ = last_name;
-		ID_num_ = ID_num;
-		sex_ = sex;
-		insurance_ = insurance;
-	}
-
-	public String getName_() {
-		return name_;
-	}
-
-	public void setName_(String name_) {
-		this.name_ = name_;
-	}
-
-	public String getLast_name_() {
-		return last_name_;
-	}
-
-	public void setLast_name_(String last_name_) {
-		this.last_name_ = last_name_;
-	}
-
-	public Integer getID_num_() {
-		return ID_num_;
-	}
-
-	public void setID_num_(Integer iD_num_) {
-		ID_num_ = iD_num_;
-	}
-
-	public Boolean getSex_() {
-		return sex_;
-	}
-
-	public void setSex_(Boolean sex_) {
-		this.sex_ = sex_;
-	}
-
-	public int getInsurance_() {
-		return insurance_;
-	}
-
-	public void setInsurance_(int insurance_) {
-		this.insurance_ = insurance_;
+		super(name, last_name, ID_num, sex, insurance);
+		patient_name_ = name + last_name;
+		exam_ = null;
 	}
 	
+	public Patient(Patient p, Examination e){
+		super(p.name_, p.last_name_, p.ID_num_, p.sex_, p.insurance_);
+		patient_name_ = p.name_ + p.last_name_;
+		exam_ = e;
+	}
+	
+	public String getPatient_name_() {
+		return patient_name_;
+	}
+
+	public void setPatient_name_(String patient_name_) {
+		this.patient_name_ = patient_name_;
+	}
+	
+	public Examination getExam_() {
+		return exam_;
+	}
+
+	public void setExam_(Examination exam_) {
+		this.exam_ = exam_;
+	}
+	
+	//@Override
 	/** method for compare ID number of patients */
 	public boolean equals(Patient p){
 		if(this.ID_num_.equals(p.ID_num_))
 			return true;
 		else
 			return false;
-	}
-	
-	/** methods return object representation w String text */
-	public String toString(){
-		return ("[" + name_ + last_name_ + String.valueOf(this.ID_num_) + "]");
-	}
-	
-	public String setPatientName()
-	{
-		patient_name_ = name_ + " " + last_name_;
-		return patient_name_;
 	}
 }
