@@ -46,7 +46,7 @@ public class AppView extends JFrame{
 	
 	//examination panel components
 	//label
-	private JLabel appLabelDate = new JLabel("Data:");
+	private JLabel appLabelDate = new JLabel("Data [dd/mm/yyyy]:");
 	//text field
 	private JTextField appTextFieldDate = new JTextField(15);
 	//calender
@@ -81,6 +81,9 @@ public class AppView extends JFrame{
 	//action buttons
 	private JButton appButtonListAdd = new JButton("Dodaj");
 	private JButton appButtonListDelete = new JButton("Usuñ");
+	//patient number labels & text
+	private JLabel appLabelPatientsNumber = new JLabel("Patients number:");
+	private JTextField appTextFieldPatientsNumber = new JTextField(4);
 	
 	public AppView(){
 		
@@ -154,49 +157,38 @@ public class AppView extends JFrame{
 		appPatientPanel.add(appActionBar1, BorderLayout.PAGE_END);
 		
 		//set examination view panel
-		appExaminationPanel.setLayout(new BoxLayout(appExaminationPanel, BoxLayout.PAGE_AXIS));
+		appExaminationPanel.setLayout(new BorderLayout());
+		
+		JPanel appExaminationDataPanel = new JPanel();
+		appExaminationDataPanel.setLayout(new BoxLayout(appExaminationDataPanel, BoxLayout.PAGE_AXIS));
 		
 		JPanel appDatePanel = new JPanel();
 		appDatePanel.setLayout(new GridLayout(0,3));
 		appDatePanel.add(appLabelDate);
+		//TODO zmiana rozmiaru appTextFildDate
 		appDatePanel.add(appTextFieldDate);
-		//TODO dorzuciæ kontrolkê od JCalender
+		appDatePanel.add(dateCalendar);
 		
-		appExaminationPanel.add(appDatePanel);
+		appExaminationDataPanel.add(appDatePanel);
 		
-		appExaminationPanel.add(appCheckBoxHBS);
-		appExaminationPanel.add(appCheckBoxHIV);
-		appExaminationPanel.add(appCheckBoxHCV);
+		appExaminationDataPanel.add(appCheckBoxHBS);
+		appExaminationDataPanel.add(appCheckBoxHIV);
+		appExaminationDataPanel.add(appCheckBoxHCV);
 		
-		JPanel appActionPanel2 = new JPanel();
-		appActionPanel2.setLayout(new FlowLayout());
+		appExaminationPanel.add(appExaminationDataPanel);
+		
+		JPanel appActionBar2 = new JPanel();
+		appActionBar2.setLayout(new FlowLayout());
 		appButtonExaminationSave.setEnabled(false);
-		appActionPanel2.add(appButtonExaminationSave);
-		appActionPanel2.add(appButtonExaminationCancel);
-		appExaminationPanel.add(appActionPanel2);
+		appActionBar2.add(appButtonExaminationSave);
+		appActionBar2.add(appButtonExaminationCancel);
+		appExaminationPanel.add(appActionBar2,BorderLayout.PAGE_END);
 		
 		//set patients list view panel
 		appPatientsListPanel.setLayout(new BorderLayout());
 		
 		String [] columnNames = { "Imiê i Nazwisko", "PESEL", "P³eæ", "Ubezpieczenie", "Badanie"};
-		Object [] [] data = {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null}
-		};
+		Object [] [] data = new Object[1] [5];
 
 		appTableList.setModel(new DefaultTableModel(data,columnNames));
 		appPatientsListPanel.add(appTableList);
@@ -204,10 +196,19 @@ public class AppView extends JFrame{
 		appPatientsListPanel.add(appScrollPaneList);
 		
 		JPanel appActionPanel3 = new JPanel();
+		JPanel appPatientNumberPanel = new JPanel();
+		JPanel appActionBar3 = new JPanel();
 		appActionPanel3.setLayout(new FlowLayout());
 		appActionPanel3.add(appButtonListAdd);
 		appActionPanel3.add(appButtonListDelete);
-		appPatientsListPanel.add(appActionPanel3, BorderLayout.PAGE_END);
+		appPatientNumberPanel.setLayout(new FlowLayout());
+		appPatientNumberPanel.add(appLabelPatientsNumber);
+		appPatientNumberPanel.add(appTextFieldPatientsNumber);
+		appTextFieldPatientsNumber.setText("0");
+		appActionBar3.setLayout(new BorderLayout());
+		appActionBar3.add(appActionPanel3, BorderLayout.LINE_START);
+		appActionBar3.add(appPatientNumberPanel, BorderLayout.LINE_END);
+		appPatientsListPanel.add(appActionBar3, BorderLayout.PAGE_END);
 	}
 	
 
