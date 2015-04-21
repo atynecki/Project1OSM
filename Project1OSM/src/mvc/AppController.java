@@ -26,6 +26,24 @@ public class AppController implements ActionListener{
 			if(e.getSource().equals(cView.getAppButtonExaminationCancel()))
 				cView.cleanExaminationView();
 		}
+		else if(e.getActionCommand().equals("Dodaj")){
+			cView.setSaveButtonEnable();
+		}
+		
+		else if(e.getSource().equals(cView.getAppRadioButtonMan())){
+			if(cView.getAppRadioButtonMan().isSelected() == true)
+				cView.getAppRadioButtonWoman().setEnabled(false);
+			else if(cView.getAppRadioButtonMan().isSelected() == false)
+				cView.getAppRadioButtonWoman().setEnabled(true);
+		}
+		
+		else if(e.getSource().equals(cView.getAppRadioButtonWoman())){
+			if(cView.getAppRadioButtonWoman().isSelected() == true)
+				cView.getAppRadioButtonMan().setEnabled(false);
+			else if(cView.getAppRadioButtonWoman().isSelected() == false)
+				cView.getAppRadioButtonMan().setEnabled(true);
+		}
+			
 	}
 	public void updateView(){
 		

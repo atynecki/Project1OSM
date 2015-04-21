@@ -116,37 +116,42 @@ public class AppView extends JFrame{
 		appRightPanel.add(appPatientsListPanel);
 		
 		//set patient view panel
-		GridLayout appPatientPanelLayout = new GridLayout(0,2);
-		appPatientPanel.setLayout(appPatientPanelLayout);
-		appPatientPanel.add(appLabelName);
-		appPatientPanel.add(appTextFieldName);
-		appPatientPanel.add(appLabelSurname);
-		appPatientPanel.add(appTextFieldSurname);
-		appPatientPanel.add(appLabelID);
-		appPatientPanel.add(appTextFieldID);
+		appPatientPanel.setLayout(new BorderLayout());
 		
-		appPatientPanel.add(appLabelSex);
+		JPanel appPatientDataPanel = new JPanel();
+		appPatientDataPanel.setLayout(new GridLayout(0,2,2,20));
+		
+		appPatientDataPanel.add(appLabelName);
+		appPatientDataPanel.add(appTextFieldName);
+		appPatientDataPanel.add(appLabelSurname);
+		appPatientDataPanel.add(appTextFieldSurname);
+		appPatientDataPanel.add(appLabelID);
+		appPatientDataPanel.add(appTextFieldID);
+		
+		appPatientDataPanel.add(appLabelSex);
 		JPanel appSexPanel = new JPanel();
 		appSexPanel.setLayout(new FlowLayout());
 		appSexPanel.add(appRadioButtonWoman);
 		appSexPanel.add(appRadioButtonMan);
-		appPatientPanel.add(appSexPanel);
+		appPatientDataPanel.add(appSexPanel);
 		
-		appPatientPanel.add(appLabelInsurance);
+		appPatientDataPanel.add(appLabelInsurance);
 		String[] insurance = new String[3];
 		insurance[0] = "NFZ";
 		insurance[1] = "Prywatne";
 		insurance[2] = "Brak";
 		appComboBoxInsurance.setModel(new DefaultComboBoxModel<String>(insurance));
 		appComboBoxInsurance.setSelectedIndex(2);
-		appPatientPanel.add(appComboBoxInsurance);
+		appPatientDataPanel.add(appComboBoxInsurance);
 		
-		JPanel appActionPanel1 = new JPanel();
-		appActionPanel1.setLayout(new FlowLayout());
-		appButtonPatientSave.setEnabled(false);;
-		appActionPanel1.add(appButtonPatientSave);
-		appActionPanel1.add(appButtonPatientCancel);
-		appPatientPanel.add(appActionPanel1);
+		appPatientPanel.add(appPatientDataPanel, BorderLayout.CENTER);
+		
+		JPanel appActionBar1 = new JPanel();
+		appActionBar1.setLayout(new FlowLayout());
+		appButtonPatientSave.setEnabled(false);
+		appActionBar1.add(appButtonPatientSave);
+		appActionBar1.add(appButtonPatientCancel);
+		appPatientPanel.add(appActionBar1, BorderLayout.PAGE_END);
 		
 		//set examination view panel
 		appExaminationPanel.setLayout(new BoxLayout(appExaminationPanel, BoxLayout.PAGE_AXIS));
@@ -222,27 +227,49 @@ public class AppView extends JFrame{
 	public JButton getAppButtonExaminationCancel() {
 		return appButtonExaminationCancel;
 	}
+	
+	public JRadioButton getAppRadioButtonWoman() {
+		return appRadioButtonWoman;
+	}
+
+	public JRadioButton getAppRadioButtonMan() {
+		return appRadioButtonMan;
+	}
+
 
 	//SET CONTROLLER 
 	public void setController(ActionListener c) {
-		this.appMenuItem.addActionListener(c);
-		this.appButtonPatientSave.addActionListener(c);
-		this.appButtonPatientCancel.addActionListener(c);
-		this.appButtonExaminationSave.addActionListener(c);
-		this.appButtonExaminationCancel.addActionListener(c);
+		appMenuItem.addActionListener(c);
+		appButtonPatientSave.addActionListener(c);
+		appButtonPatientCancel.addActionListener(c);
+		appButtonExaminationSave.addActionListener(c);
+		appButtonExaminationCancel.addActionListener(c);
+		appButtonListAdd.addActionListener(c);
+		appButtonListDelete.addActionListener(c);
+		appRadioButtonMan.addActionListener(c);
+		appRadioButtonWoman.addActionListener(c);
 	}
 	
 	//VIEW CHANGE FUNCTIONS
 	//TODO dokoñczyæ
-	public void cleanPatientView(){
+	public void cleanPatientView() {
 		appTextFieldName.setText("");
 		appTextFieldSurname.setText("");
 		appTextFieldID.setText("");
+		appRadioButtonMan.setEnabled(true);
+		appRadioButtonWoman.setEnabled(true);
+		appRadioButtonMan.setSelected(false);
+		appRadioButtonWoman.setSelected(false);
 		appComboBoxInsurance.setSelectedIndex(2);
 	}
 	//TODO dokoñczyæ
-	public void cleanExaminationView(){
+	public void cleanExaminationView() {
 		appTextFieldDate.setText("");
+	}
+	
+	public void setSaveButtonEnable() {
+		appButtonPatientSave.setEnabled(true);
+		appButtonExaminationSave.setEnabled(true);
 	}
 
 }
