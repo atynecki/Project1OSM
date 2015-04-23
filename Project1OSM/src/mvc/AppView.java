@@ -1,9 +1,15 @@
 package mvc;
 
+import data.*;
+
+import java.util.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.MouseInputListener;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,11 +52,11 @@ public class AppView extends JFrame{
 	
 	//examination panel components
 	//label
-	private JLabel appLabelDate = new JLabel("Data [dd/mm/yyyy]:");
-	//text field
-	private JTextField appTextFieldDate = new JTextField(15);
+	private JLabel appLabelDate = new JLabel("Data [day/month/year]:");
+	private JLabel appLabelExamDate = new JLabel();
 	//calender
 	private JCalendar dateCalendar = new JCalendar();
+	private MyDate currentDate = new MyDate();
 	//check boxes
 	private JCheckBox appCheckBoxHBS = new JCheckBox("HBS");
 	private JCheckBox appCheckBoxHIV = new JCheckBox("HIV");
@@ -82,7 +88,7 @@ public class AppView extends JFrame{
 	private JButton appButtonListAdd = new JButton("Dodaj");
 	private JButton appButtonListDelete = new JButton("Usuñ");
 	//patient number labels & text
-	private JLabel appLabelPatientsNumber = new JLabel("Patients number:");
+	private JLabel appLabelPatientsNumber = new JLabel("Liczba pacjentów:");
 	private JTextField appTextFieldPatientsNumber = new JTextField(4);
 	
 	public AppView(){
@@ -159,23 +165,25 @@ public class AppView extends JFrame{
 		//set examination view panel
 		appExaminationPanel.setLayout(new BorderLayout());
 		
+		JPanel appSelectDatePanel = new JPanel();
+		appSelectDatePanel.setLayout(new FlowLayout());
+		appSelectDatePanel.add(appLabelDate);
+		currentDate = readCalendarDate();
+		appLabelExamDate.setText(currentDate.toString());
+		appSelectDatePanel.add(appLabelExamDate);
+		appExaminationPanel.add(appSelectDatePanel, BorderLayout.PAGE_START);
+		appExaminationPanel.add(dateCalendar, BorderLayout.LINE_END);
+			
+		//poprawiæ ten layout
+		JLabel appExaminationResult = new JLabel("Wykryto:");
 		JPanel appExaminationDataPanel = new JPanel();
-		appExaminationDataPanel.setLayout(new BoxLayout(appExaminationDataPanel, BoxLayout.PAGE_AXIS));
-		
-		JPanel appDatePanel = new JPanel();
-		appDatePanel.setLayout(new GridLayout(0,3));
-		appDatePanel.add(appLabelDate);
-		//TODO zmiana rozmiaru appTextFildDate
-		appDatePanel.add(appTextFieldDate);
-		appDatePanel.add(dateCalendar);
-		
-		appExaminationDataPanel.add(appDatePanel);
-		
+		appExaminationDataPanel.setLayout(new BoxLayout(appExaminationDataPanel, BoxLayout.Y_AXIS));
+		appExaminationDataPanel.add(appExaminationResult);
 		appExaminationDataPanel.add(appCheckBoxHBS);
 		appExaminationDataPanel.add(appCheckBoxHIV);
 		appExaminationDataPanel.add(appCheckBoxHCV);
-		
-		appExaminationPanel.add(appExaminationDataPanel);
+		appExaminationPanel.add(new JLabel(), BorderLayout.LINE_START);
+		appExaminationPanel.add(appExaminationDataPanel, BorderLayout.CENTER);
 		
 		JPanel appActionBar2 = new JPanel();
 		appActionBar2.setLayout(new FlowLayout());
@@ -188,7 +196,7 @@ public class AppView extends JFrame{
 		appPatientsListPanel.setLayout(new BorderLayout());
 		
 		String [] columnNames = { "Imiê i Nazwisko", "PESEL", "P³eæ", "Ubezpieczenie", "Badanie"};
-		Object [] [] data = new Object[1] [5];
+		Object [] [] data = new Object[30] [5];
 
 		appTableList.setModel(new DefaultTableModel(data,columnNames));
 		appPatientsListPanel.add(appTableList);
@@ -200,6 +208,7 @@ public class AppView extends JFrame{
 		JPanel appActionBar3 = new JPanel();
 		appActionPanel3.setLayout(new FlowLayout());
 		appActionPanel3.add(appButtonListAdd);
+		appButtonListDelete.setEnabled(false);
 		appActionPanel3.add(appButtonListDelete);
 		appPatientNumberPanel.setLayout(new FlowLayout());
 		appPatientNumberPanel.add(appLabelPatientsNumber);
@@ -249,10 +258,11 @@ public class AppView extends JFrame{
 		appButtonListDelete.addActionListener(c);
 		appRadioButtonMan.addActionListener(c);
 		appRadioButtonWoman.addActionListener(c);
+		//appTableList.addMouseListener((MouseListener) c);
+		//dateCalendar.addMouseListener((MouseListener) c);
 	}
 	
 	//VIEW CHANGE FUNCTIONS
-	//TODO dokoñczyæ
 	public void cleanPatientView() {
 		appTextFieldName.setText("");
 		appTextFieldSurname.setText("");
@@ -263,14 +273,87 @@ public class AppView extends JFrame{
 		appRadioButtonWoman.setSelected(false);
 		appComboBoxInsurance.setSelectedIndex(2);
 	}
-	//TODO dokoñczyæ
+	
 	public void cleanExaminationView() {
-		appTextFieldDate.setText("");
+		appCheckBoxHBS.setSelected(false);
+		appCheckBoxHCV.setSelected(false);
+		appCheckBoxHIV.setSelected(false);
 	}
 	
 	public void setSaveButtonEnable() {
 		appButtonPatientSave.setEnabled(true);
 		appButtonExaminationSave.setEnabled(true);
 	}
+	
+public Patient patientCreate() {
+		Patient newPatient = new Patient();
+		if(utils.isText(appTextFieldName.getText()))
+			newPatient.setName_(appTextFieldName.getText());
+		else {
+			//rzuc wyjatkiem
+		}
+		if(utils.isText(appTextFieldSurname.getText()))
+			newPatient.setLast_name_(appTextFieldSurname.getText());
+		else {
+			//rzuc wyjatkiem
+		}
+		String id_num = appTextFieldID.getText();
+		if(utils.isNumber(id_num)){
+			if(id_num.length() == 11)
+				newPatient.setID_num_(id_num);
+			else {
+				//rzuc wyjatkiem
+			}
+		}
+		else {
+			//rzuc wyjatkiem
+		}
+		if(appRadioButtonMan.isSelected())
+			newPatient.setSex_(false);
+		else if(appRadioButtonWoman.isSelected())
+			newPatient.setSex_(true);
+		else {
+			//rzuc wyjatkiem
+		}
+		newPatient.setInsurance_(appComboBoxInsurance.getSelectedIndex());
+		return newPatient;
+	}
+
+public MyDate readCalendarDate(){
+	MyDate current_date = new MyDate();
+	current_date.setDay_(dateCalendar.getDayChooser().getDay());
+	current_date.setMonth_(dateCalendar.getMonthChooser().getMonth());
+	current_date.setYear_(dateCalendar.getYearChooser().getYear());
+	
+	return current_date;
+}
+public Examination examinationCreate(){
+	Examination newExamination = new Examination();
+	newExamination.setTest_data_(readCalendarDate());
+	newExamination.setHBS_detect_(appCheckBoxHBS.isSelected());
+	newExamination.setHCV_detect_(appCheckBoxHCV.isSelected());
+	newExamination.setHIV_detect_(appCheckBoxHIV.isSelected());
+	return newExamination;
+}
+
+public void setPatientToList(Patient patient, int patient_num){
+	appTableList.setValueAt(patient.getPatient_name_(), patient_num, 0);
+	appTableList.setValueAt(patient.getID_num_(), patient_num, 1);
+	if(patient.getSex_() == true)
+		appTableList.setValueAt("K", patient_num, 2);
+	else if(patient.getSex_() == false)
+		appTableList.setValueAt("M", patient_num, 2);
+	if(patient.getInsurance_() == 0)
+		appTableList.setValueAt("NFZ", patient_num, 3);
+	else if(patient.getInsurance_() == 1)
+		appTableList.setValueAt("Prywatne", patient_num, 3);
+	else if(patient.getInsurance_() == 2)
+		appTableList.setValueAt("Brak", patient_num, 3);
+	//TODO zrobiæ ¿eby by³ widoczny checkbox
+	appTableList.setValueAt(patient.getExamination_check_box(), patient_num, 4);
+	
+	appButtonListDelete.setEnabled(true);
+	appTextFieldPatientsNumber.setText(String.valueOf(patient_num+1));
+}
 
 }

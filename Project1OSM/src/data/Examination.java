@@ -1,41 +1,23 @@
 package data;
 
-import java.util.*;
-
 public class Examination {
 	private Boolean HIV_detect_;
 	private Boolean HCV_detect_;
 	private Boolean HBS_detect_;
 	
-	private Boolean examination_flag_;
-	
-	private Date test_data_ = new Date();
+	private MyDate test_data_ = new MyDate();
 	
 	public Examination(){
 		HIV_detect_ = false;
 		HCV_detect_ = false;
 		HBS_detect_ = false;
-		examination_flag_ = false;
-		test_data_.setTime(0);
 	}
 	
-	public Examination(Boolean HIV, Boolean HCV, Boolean HBS, Date test_date){
+	public Examination(Boolean HIV, Boolean HCV, Boolean HBS, MyDate test_date){
 		HIV_detect_ = HIV;
 		HCV_detect_ = HCV;
 		HBS_detect_ = HBS;
 		test_data_ = test_date;
-	}
-	
-	public Boolean getExamination_flag_() {
-		return examination_flag_;
-	}
-
-	public void setExamination_flag_() {
-		this.examination_flag_ = true;
-	}
-	
-	public void eraseExamination_flag_() {
-		this.examination_flag_ = false;
 	}
 	
 	public Boolean getHIV_detect_() {
@@ -62,11 +44,11 @@ public class Examination {
 		HBS_detect_ = hBS_detect_;
 	}
 
-	public Date getTest_data_() {
+	public MyDate getTest_data_() {
 		return test_data_;
 	}
 
-	public void setTest_data_(Date test_data_) {
+	public void setTest_data_(MyDate test_data_) {
 		this.test_data_ = test_data_;
 	}
 	

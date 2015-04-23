@@ -68,20 +68,4 @@ public class AppModel {
 		else
 			return false;
 	}
-
-	public boolean isText (String line){
-		for(int i=0; i<line.length(); i++){
-			if(!(Character.isLetter(line.charAt(i))))
-					return false;
-		}
-		return true;
-	}
-	
-	public boolean isNumber (String line){
-		for(int i=0; i<line.length(); i++){
-			if(!(Character.isDigit(line.charAt(i))))
-					return false;
-		}
-		return true;
-	}
 }
