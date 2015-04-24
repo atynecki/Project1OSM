@@ -57,7 +57,6 @@ public class AppView extends JFrame{
 	//calender
 	private JCalendar dateCalendar = new JCalendar();
 	private MyDate currentDate = new MyDate();
-	//private ImageIcon icon = createImageIcon("images/middle.gif");
 	//check boxes
 	private JCheckBox appCheckBoxHBS = new JCheckBox("HBS");
 	private JCheckBox appCheckBoxHIV = new JCheckBox("HIV");
@@ -167,26 +166,6 @@ public class AppView extends JFrame{
 		//set examination view panel
 		appExaminationPanel.setLayout(new BorderLayout());
 		
-		JPanel appSelectDatePanel = new JPanel();
-		appSelectDatePanel.setLayout(new FlowLayout());
-		appSelectDatePanel.add(appLabelDate);
-		currentDate = readCalendarDate();
-		appLabelExamDate.setText(currentDate.toString());
-		appSelectDatePanel.add(appLabelExamDate);
-		appExaminationPanel.add(appSelectDatePanel, BorderLayout.PAGE_START);
-		appExaminationPanel.add(dateCalendar, BorderLayout.LINE_END);
-			
-		//poprawiæ ten layout
-		JLabel appExaminationResult = new JLabel("Wykryto:");
-		JPanel appExaminationDataPanel = new JPanel();
-		appExaminationDataPanel.setLayout(new BoxLayout(appExaminationDataPanel, BoxLayout.Y_AXIS));
-		appExaminationDataPanel.add(appExaminationResult);
-		appExaminationDataPanel.add(appCheckBoxHBS);
-		appExaminationDataPanel.add(appCheckBoxHIV);
-		appExaminationDataPanel.add(appCheckBoxHCV);
-		appExaminationPanel.add(new JLabel(), BorderLayout.LINE_START);
-		appExaminationPanel.add(appExaminationDataPanel, BorderLayout.CENTER);
-		
 		JPanel appActionBar2 = new JPanel();
 		appActionBar2.setLayout(new FlowLayout());
 		appButtonExaminationSave.setEnabled(false);
@@ -194,6 +173,33 @@ public class AppView extends JFrame{
 		appActionBar2.add(appButtonExaminationCancel);
 		appExaminationPanel.add(appActionBar2,BorderLayout.PAGE_END);
 		
+		JPanel appExaminationAllDataPanel = new JPanel();
+		appExaminationAllDataPanel.setLayout(new GridLayout(0,2));
+		appExaminationPanel.add(appExaminationAllDataPanel);
+		
+		JLabel appExaminationResult = new JLabel("Wykryto:");
+		JPanel appExaminationDataPanel = new JPanel();
+		appExaminationDataPanel.setLayout(new GridLayout(4,0));
+		appExaminationDataPanel.add(appExaminationResult);
+		appExaminationDataPanel.add(appCheckBoxHBS);
+		appExaminationDataPanel.add(appCheckBoxHIV);
+		appExaminationDataPanel.add(appCheckBoxHCV);
+		appExaminationAllDataPanel.add(appExaminationDataPanel);
+		
+		JPanel appSelectDatePanel = new JPanel();
+		appSelectDatePanel.setLayout(new BorderLayout());
+		
+		appSelectDatePanel.add(appButtonDateSet, BorderLayout.PAGE_END);
+		appSelectDatePanel.add(dateCalendar, BorderLayout.CENTER);
+		currentDate = readCalendarDate();
+		JPanel appDateViewPanel = new JPanel();
+		appDateViewPanel.setLayout(new GridLayout(0, 2));
+		appDateViewPanel.add(appLabelDate,0);
+		appLabelExamDate.setText(currentDate.toString());
+		appDateViewPanel.add(appLabelExamDate,1);
+		appSelectDatePanel.add(appDateViewPanel, BorderLayout.PAGE_START);
+		appExaminationAllDataPanel.add(appSelectDatePanel);
+			
 		//set patients list view panel
 		appPatientsListPanel.setLayout(new BorderLayout());
 		
@@ -265,7 +271,7 @@ public class AppView extends JFrame{
 		appRadioButtonMan.addActionListener(c);
 		appRadioButtonWoman.addActionListener(c);
 		appTableList.addMouseListener(c);
-		//dateCalendar.ad
+		appButtonDateSet.addActionListener(c);
 	}
 	
 	//BUTTONS VIEWS
@@ -349,7 +355,7 @@ public class AppView extends JFrame{
 	}
 	
 	public void setCalendarDate(MyDate date){
-		appLabelDate.setText(date.toString());
+		appLabelExamDate.setText(date.toString());
 	}
 	
 	public Examination readExaminationView(){

@@ -60,6 +60,9 @@ public class AppController implements ActionListener, MouseListener{
 				else if(cView.getAppRadioButtonWoman().isSelected() == false)
 					cView.getAppRadioButtonMan().setEnabled(true);
 				break;
+			case "Ustaw":
+				cView.setCalendarDate(cView.readCalendarDate());
+				break;
 				
 		}
 		
