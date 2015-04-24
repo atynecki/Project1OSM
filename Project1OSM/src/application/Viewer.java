@@ -1,10 +1,7 @@
 package application;
 
 import java.awt.EventQueue;
-import java.util.*;
-
 import mvc.*;
-import data.*;
 
 public class Viewer {
 

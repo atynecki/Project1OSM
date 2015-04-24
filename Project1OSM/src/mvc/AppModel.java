@@ -8,12 +8,12 @@ import data.*;
 public class AppModel {
 	private ArrayList<Patient> patient_list_ = new ArrayList<Patient>();
 	private int patients_number_;
-	private AppController controller;
+	private AppController controller_;
 	
 	public AppModel (){
 		patients_number_ = 0;
 		patient_list_.clear();
-		controller = null;
+		controller_ = null;
 	}
 	
 	/// GETTERS END SETTERS
@@ -47,7 +47,7 @@ public class AppModel {
 	}
 	
 	public void setController(AppController c){
-		this.controller = c;
+		this.controller_ = c;
 	}
 
 	/// METHODS
@@ -56,16 +56,16 @@ public class AppModel {
 		patients_number_--;
 	}
 	
-	public void clearPatientList(){
-		patient_list_.clear();
-		patients_number_ = 0;
-	}
-	
 	//TODO przetestowaæ dla podobnych pol
 	public Boolean hasPatient(Patient p){
 		if(patient_list_.contains(p))
 			return true;
 		else
 			return false;
+	}
+	
+	public void clearPatientList(){
+		patient_list_.clear();
+		patients_number_ = 0;
 	}
 }

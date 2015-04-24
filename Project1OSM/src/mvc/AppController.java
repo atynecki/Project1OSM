@@ -5,10 +5,9 @@ import java.awt.event.*;
 
 import javax.swing.JFrame;
 //realizuje interakcjê z u¿ytkownikiem, aktualizuje model i podmienia widok
-public class AppController implements ActionListener{
+public class AppController implements ActionListener, MouseListener{
 	private AppModel cModel = null;
 	private AppView cView = null;
-	Patient new_patient;
 	
 	public AppController (AppModel model, AppView view){
 		this.cModel = model;
@@ -35,14 +34,12 @@ public class AppController implements ActionListener{
 			
 			case "Zapisz":
 				if(actionSource.equals(cView.getAppButtonPatientSave())){
-					Patient new_patient  = new Patient(cView.patientCreate(),null);
+					Patient new_patient  = new Patient(cView.readPatientView(),null);
 					cModel.setPatient_(new_patient);
 					cView.setPatientToList(cModel.getPatient_(cModel.getPatients_number_()-1),cModel.getPatients_number_()-1);
 				}
 				
 				else if(actionSource.equals(cView.getAppButtonExaminationSave())){
-					Examination exam = cView.examinationCreate();
-					System.out.println(exam.getTest_data_().toString());
 					
 				}
 				break;
@@ -64,6 +61,28 @@ public class AppController implements ActionListener{
 					cView.getAppRadioButtonMan().setEnabled(true);
 				break;
 				
-		}		
+		}
+		
+		
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		Object actionSource = e.getSource();
+		if(actionSource == cView.getAppTableList()){
+			int row_number = 0;
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
 }

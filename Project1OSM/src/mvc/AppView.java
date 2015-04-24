@@ -57,11 +57,13 @@ public class AppView extends JFrame{
 	//calender
 	private JCalendar dateCalendar = new JCalendar();
 	private MyDate currentDate = new MyDate();
+	//private ImageIcon icon = createImageIcon("images/middle.gif");
 	//check boxes
 	private JCheckBox appCheckBoxHBS = new JCheckBox("HBS");
 	private JCheckBox appCheckBoxHIV = new JCheckBox("HIV");
 	private JCheckBox appCheckBoxHCV = new JCheckBox("HCV");
 	//action buttons
+	private JButton appButtonDateSet = new JButton("Ustaw");
 	private JButton appButtonExaminationSave = new JButton("Zapisz");
 	private JButton appButtonExaminationCancel = new JButton("Anuluj");
 	
@@ -247,8 +249,12 @@ public class AppView extends JFrame{
 	}
 
 
+	public JTable getAppTableList() {
+		return appTableList;
+	}
+
 	//SET CONTROLLER 
-	public void setController(ActionListener c) {
+	public void setController(AppController c) {
 		appMenuItem.addActionListener(c);
 		appButtonPatientSave.addActionListener(c);
 		appButtonPatientCancel.addActionListener(c);
@@ -258,34 +264,19 @@ public class AppView extends JFrame{
 		appButtonListDelete.addActionListener(c);
 		appRadioButtonMan.addActionListener(c);
 		appRadioButtonWoman.addActionListener(c);
-		//appTableList.addMouseListener((MouseListener) c);
-		//dateCalendar.addMouseListener((MouseListener) c);
+		appTableList.addMouseListener(c);
+		//dateCalendar.ad
 	}
 	
-	//VIEW CHANGE FUNCTIONS
-	public void cleanPatientView() {
-		appTextFieldName.setText("");
-		appTextFieldSurname.setText("");
-		appTextFieldID.setText("");
-		appRadioButtonMan.setEnabled(true);
-		appRadioButtonWoman.setEnabled(true);
-		appRadioButtonMan.setSelected(false);
-		appRadioButtonWoman.setSelected(false);
-		appComboBoxInsurance.setSelectedIndex(2);
-	}
-	
-	public void cleanExaminationView() {
-		appCheckBoxHBS.setSelected(false);
-		appCheckBoxHCV.setSelected(false);
-		appCheckBoxHIV.setSelected(false);
-	}
-	
+	//BUTTONS VIEWS
 	public void setSaveButtonEnable() {
 		appButtonPatientSave.setEnabled(true);
 		appButtonExaminationSave.setEnabled(true);
 	}
 	
-public Patient patientCreate() {
+	//VIEW METHODS
+	// Patient View
+	public Patient readPatientView() {
 		Patient newPatient = new Patient();
 		if(utils.isText(appTextFieldName.getText()))
 			newPatient.setName_(appTextFieldName.getText());
@@ -318,42 +309,89 @@ public Patient patientCreate() {
 		newPatient.setInsurance_(appComboBoxInsurance.getSelectedIndex());
 		return newPatient;
 	}
-
-public MyDate readCalendarDate(){
-	MyDate current_date = new MyDate();
-	current_date.setDay_(dateCalendar.getDayChooser().getDay());
-	current_date.setMonth_(dateCalendar.getMonthChooser().getMonth());
-	current_date.setYear_(dateCalendar.getYearChooser().getYear());
 	
-	return current_date;
-}
-public Examination examinationCreate(){
-	Examination newExamination = new Examination();
-	newExamination.setTest_data_(readCalendarDate());
-	newExamination.setHBS_detect_(appCheckBoxHBS.isSelected());
-	newExamination.setHCV_detect_(appCheckBoxHCV.isSelected());
-	newExamination.setHIV_detect_(appCheckBoxHIV.isSelected());
-	return newExamination;
-}
-
-public void setPatientToList(Patient patient, int patient_num){
-	appTableList.setValueAt(patient.getPatient_name_(), patient_num, 0);
-	appTableList.setValueAt(patient.getID_num_(), patient_num, 1);
-	if(patient.getSex_() == true)
-		appTableList.setValueAt("K", patient_num, 2);
-	else if(patient.getSex_() == false)
-		appTableList.setValueAt("M", patient_num, 2);
-	if(patient.getInsurance_() == 0)
-		appTableList.setValueAt("NFZ", patient_num, 3);
-	else if(patient.getInsurance_() == 1)
-		appTableList.setValueAt("Prywatne", patient_num, 3);
-	else if(patient.getInsurance_() == 2)
-		appTableList.setValueAt("Brak", patient_num, 3);
-	//TODO zrobiæ ¿eby by³ widoczny checkbox
-	appTableList.setValueAt(patient.getExamination_check_box(), patient_num, 4);
+	public void setPatientView(Patient p){
+		appTextFieldName.setText(p.getName_());
+		appTextFieldSurname.setText(p.getLast_name_());
+		appTextFieldID.setText(p.getID_num_());
+		if(p.getSex_() == false){
+			appRadioButtonMan.setEnabled(true);
+			appRadioButtonMan.setSelected(true);
+			appRadioButtonWoman.setEnabled(false);
+		}
+		else if(p.getSex_() == true){
+			appRadioButtonWoman.setEnabled(true);
+			appRadioButtonWoman.setSelected(true);
+			appRadioButtonMan.setEnabled(false);
+		}
+		appComboBoxInsurance.setSelectedIndex(p.getInsurance_());
+	}
 	
-	appButtonListDelete.setEnabled(true);
-	appTextFieldPatientsNumber.setText(String.valueOf(patient_num+1));
-}
+	public void cleanPatientView() {
+		appTextFieldName.setText("");
+		appTextFieldSurname.setText("");
+		appTextFieldID.setText("");
+		appRadioButtonMan.setEnabled(true);
+		appRadioButtonWoman.setEnabled(true);
+		appRadioButtonMan.setSelected(false);
+		appRadioButtonWoman.setSelected(false);
+		appComboBoxInsurance.setSelectedIndex(2);
+	}
+	
+	//Examination view
+	public MyDate readCalendarDate(){
+		MyDate current_date = new MyDate();
+		current_date.setDay_(dateCalendar.getDayChooser().getDay());
+		current_date.setMonth_(dateCalendar.getMonthChooser().getMonth());
+		current_date.setYear_(dateCalendar.getYearChooser().getYear());
+		
+		return current_date;
+	}
+	
+	public void setCalendarDate(MyDate date){
+		appLabelDate.setText(date.toString());
+	}
+	
+	public Examination readExaminationView(){
+		Examination newExamination = new Examination();
+		newExamination.setTest_data_(readCalendarDate());
+		newExamination.setHBS_detect_(appCheckBoxHBS.isSelected());
+		newExamination.setHCV_detect_(appCheckBoxHCV.isSelected());
+		newExamination.setHIV_detect_(appCheckBoxHIV.isSelected());
+		return newExamination;
+	}
+	
+	public void cleanExaminationView() {
+		MyDate default_date = new MyDate();
+		appLabelExamDate.setText(default_date.toString());
+		appCheckBoxHBS.setSelected(false);
+		appCheckBoxHCV.setSelected(false);
+		appCheckBoxHIV.setSelected(false);
+	}
+	
+	//Patient List View
+	public void setPatientToList(Patient patient, int patient_num){
+		appTableList.setValueAt(patient.getPatient_name_(), patient_num, 0);
+		appTableList.setValueAt(patient.getID_num_(), patient_num, 1);
+		if(patient.getSex_() == true)
+			appTableList.setValueAt("K", patient_num, 2);
+		else if(patient.getSex_() == false)
+			appTableList.setValueAt("M", patient_num, 2);
+		if(patient.getInsurance_() == 0)
+			appTableList.setValueAt("NFZ", patient_num, 3);
+		else if(patient.getInsurance_() == 1)
+			appTableList.setValueAt("Prywatne", patient_num, 3);
+		else if(patient.getInsurance_() == 2)
+			appTableList.setValueAt("Brak", patient_num, 3);
+		//TODO zrobiæ ¿eby by³ widoczny checkbox
+		appTableList.setValueAt(patient.getExamination_check_box(), patient_num, 4);
+		
+		appButtonListDelete.setEnabled(true);
+		appTextFieldPatientsNumber.setText(String.valueOf(patient_num+1));
+	}
+	
+	public void clearPatientList(){
+		appTableList.removeAll();
+	}
 
 }
