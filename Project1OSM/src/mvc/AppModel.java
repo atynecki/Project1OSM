@@ -58,10 +58,11 @@ public class AppModel {
 	
 	//TODO przetestowaæ dla podobnych pol
 	public Boolean hasPatient(Patient p){
-		if(patient_list_.contains(p))
-			return true;
-		else
-			return false;
+		for(Patient patient :patient_list_){
+			if(patient.equals(p));
+				return true;
+		}
+		return false;
 	}
 	
 	public void clearPatientList(){
