@@ -2,16 +2,20 @@ package mvc;
 
 import data.*;
 import application.*;
+
 import java.util.*;
 import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
 import com.toedter.calendar.JCalendar;
 
 //wyœwietla graficzn¹ informacji zawartych w modelu
 
 public class AppView extends JFrame{
-
+	private static final long serialVersionUID = 1L;
+	
 	//menu view components
 	private JMenuBar appMenuBar = new JMenuBar();
 	private JMenu appMenu = new JMenu("Aplikacja");
@@ -308,7 +312,7 @@ public class AppView extends JFrame{
 			if(id_num.length() == 11)
 				newPatient.setID_num_(id_num);
 			else {
-				throw new AppException("Podano z krótki numer PESEL");
+				throw new AppException("Podano za krótki numer PESEL");
 			}
 		}
 		else {
@@ -466,6 +470,10 @@ public class AppView extends JFrame{
 	
 	public void closeCalendarFrame(){
 		appCalendarFrame.dispose();
+	}
+	
+	public void setInfoMessageDialog(String message){
+		JOptionPane.showMessageDialog(null, message, "Application information", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

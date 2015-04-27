@@ -52,7 +52,7 @@ public class AppController implements ActionListener, MouseListener{
 								cView.repaintPatientList(cModel.getPatient_list_());
 							}
 							else{
-								
+								cView.setInfoMessageDialog("Pacjent" + new_patient.toString() + "ju¿ istnieje");
 							}
 						}
 					} catch (AppException exception){
@@ -64,9 +64,11 @@ public class AppController implements ActionListener, MouseListener{
 						cModel.setExam_(cView.readExaminationView(),current_patient_number);
 						cView.setExamCheckBoxSelected(current_patient_number);
 					}
+					else if(cModel.getPatient_list_().isEmpty()){
+						cView.setInfoMessageDialog("Lista pacjentów jest pusta");
+					}
 					else {
-						//rzuæ wyjatkiem
-						System.out.println("Wybierz pacjenta z listy");
+						cView.setInfoMessageDialog("Proszê wybraæ pacjenta z listy");
 					}
 				}
 				break;
