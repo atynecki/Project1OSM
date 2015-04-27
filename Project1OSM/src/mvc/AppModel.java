@@ -1,29 +1,21 @@
 package mvc;
 
 import java.util.*;
-
 import data.*;
 
 //reprezentuje dane oraz stan aplikacji i zapewnia do nich dostêp
 public class AppModel {
 	private ArrayList<Patient> patient_list_ = new ArrayList<Patient>();
-	private int patients_number_;
 	private AppController controller_;
 	
 	public AppModel (){
-		patients_number_ = 0;
 		patient_list_.clear();
 		controller_ = null;
 	}
 	
 	/// GETTERS END SETTERS
-	public int getPatients_number_() {
-		return patients_number_;
-	}
-
 	public void setPatient_(Patient patient) {
 		this.patient_list_.add(patient);
-		patients_number_++;
 	}
 	
 	public Patient getPatient_(int index) {
@@ -53,13 +45,15 @@ public class AppModel {
 	/// METHODS
 	public void erasePatient(int index){
 		patient_list_.remove(index);
-		patients_number_--;
 	}
 	
-	//TODO przetestowaæ dla podobnych pol
+	public void replacePatientAt(int index, Patient new_patient){
+		patient_list_.set(index, new_patient);
+	}
+	
 	public Boolean hasPatient(Patient p){
-		for(Patient patient :patient_list_){
-			if(patient.equals(p));
+		for(Patient patient: patient_list_){
+			if(patient.equals(p))
 				return true;
 		}
 		return false;
@@ -67,6 +61,5 @@ public class AppModel {
 	
 	public void clearPatientList(){
 		patient_list_.clear();
-		patients_number_ = 0;
 	}
 }

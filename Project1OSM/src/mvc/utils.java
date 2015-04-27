@@ -1,5 +1,4 @@
 package mvc;
-import java.util.*;
 
 public class utils {
 	static boolean isText (String line){

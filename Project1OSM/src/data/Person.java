@@ -2,14 +2,14 @@ package data;
 
 public class Person {
 	protected String name_;
-	protected String last_name_;
+	protected String surname_;
 	protected String ID_num_;
 	protected Boolean sex_;
 	protected int insurance_;
 	
 	public Person(){
 		name_ = null;
-		last_name_ = null;
+		surname_ = null;
 		ID_num_ = null;
 		sex_ = false;
 		insurance_ = 0;
@@ -17,7 +17,7 @@ public class Person {
 	
 	public Person(String name, String last_name, String ID_num, Boolean sex, int insurance){
 		name_ = name;
-		last_name_ = last_name;
+		surname_ = last_name;
 		ID_num_ = ID_num;
 		sex_ = sex;
 		insurance_ = insurance;
@@ -32,11 +32,11 @@ public class Person {
 	}
 
 	public String getLast_name_() {
-		return last_name_;
+		return surname_;
 	}
 
 	public void setLast_name_(String last_name_) {
-		this.last_name_ = last_name_;
+		this.surname_ = last_name_;
 	}
 
 	public String getID_num_() {
@@ -63,16 +63,15 @@ public class Person {
 		this.insurance_ = insurance_;
 	}
 	
-	/** method for compare ID number of person */
+	/** method for compare person data */
 	public boolean equals(Person p){
-		if(this.ID_num_.equals(p.ID_num_))
-			return true;
-		else
+		if(p==null || this.name_!=p.name_ || this.surname_!=p.surname_ || this.ID_num_!=p.ID_num_ || this.sex_!=p.sex_ || this.insurance_!=p.insurance_)
 			return false;
+		return true;
 	}
 	
-	/** methods return object representation w String text */
+	/** methods return object representation in string */
 	public String toString(){
-		return ("[" + name_ + last_name_ + ID_num_ + "]");
+		return ("[" + name_ + surname_ + ID_num_ + "]");
 	}
 }

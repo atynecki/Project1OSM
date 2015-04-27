@@ -1,23 +1,17 @@
 package mvc;
 
 import data.*;
-
+import application.*;
 import java.util.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseListener;
-
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.MouseInputListener;
 import javax.swing.table.DefaultTableModel;
-
 import com.toedter.calendar.JCalendar;
 
 //wyœwietla graficzn¹ informacji zawartych w modelu
+
 public class AppView extends JFrame{
-	
+
 	//menu view components
 	private JMenuBar appMenuBar = new JMenuBar();
 	private JMenu appMenu = new JMenu("Aplikacja");
@@ -32,11 +26,11 @@ public class AppView extends JFrame{
 	
 	//patient panel components
 	//labels
-	private JLabel appLabelName = new JLabel("Imiê:");
-	private JLabel appLabelSurname = new JLabel("Nazwisko:");
-	private JLabel appLabelID = new JLabel("Pesel:");
-	private JLabel appLabelSex = new JLabel("P³eæ:");
-	private JLabel appLabelInsurance = new JLabel("Ubezpieczenie:");
+	private JLabel appLabelName = new JLabel("Imiê:", JLabel.CENTER);
+	private JLabel appLabelSurname = new JLabel("Nazwisko:", JLabel.CENTER);
+	private JLabel appLabelID = new JLabel("Pesel:", JLabel.CENTER);
+	private JLabel appLabelSex = new JLabel("P³eæ:", JLabel.CENTER);
+	private JLabel appLabelInsurance = new JLabel("Ubezpieczenie:", JLabel.CENTER);
 	//text fields
 	private JTextField appTextFieldName = new JTextField(15);
 	private JTextField appTextFieldSurname = new JTextField(15);
@@ -52,17 +46,19 @@ public class AppView extends JFrame{
 	
 	//examination panel components
 	//label
-	private JLabel appLabelDate = new JLabel("Data [day/month/year]:");
-	private JLabel appLabelExamDate = new JLabel();
-	JLabel appExaminationResult = new JLabel("Wynik:");
-	//calender
+	private JLabel appLabelDate = new JLabel("Data [day/month/year]:", JLabel.CENTER);
+	private JLabel appLabelExamDate = new JLabel("", JLabel.CENTER);
+	private JLabel appExaminationResult = new JLabel("Wynik:", JLabel.CENTER);
+	//calendar frame
+	JFrame appCalendarFrame = new JFrame("Ustaw date");
 	private JCalendar dateCalendar = new JCalendar();
+	private JButton appButtonDateSet = new JButton("Ustaw");
 	//check boxes
 	private JCheckBox appCheckBoxHBS = new JCheckBox("HBS");
 	private JCheckBox appCheckBoxHIV = new JCheckBox("HIV");
 	private JCheckBox appCheckBoxHCV = new JCheckBox("HCV");
 	//action buttons
-	private JButton appButtonDateSet = new JButton("Ustaw");
+	private JButton appCalendarIcon = new JButton("Ustaw date", new ImageIcon("images/JCalendarIcon.gif"));
 	private JButton appButtonExaminationSave = new JButton("Zapisz");
 	private JButton appButtonExaminationCancel = new JButton("Anuluj");
 	
@@ -191,26 +187,24 @@ public class AppView extends JFrame{
 		appExaminationAllDataPanel.setLayout(new GridLayout(0,2));
 		appExaminationPanel.add(appExaminationAllDataPanel);
 		
-		JPanel appExaminationDataPanel = new JPanel();
-		appExaminationDataPanel.setLayout(new GridLayout(4,0));
-		appExaminationDataPanel.add(appExaminationResult);
-		appExaminationDataPanel.add(appCheckBoxHBS);
-		appExaminationDataPanel.add(appCheckBoxHIV);
-		appExaminationDataPanel.add(appCheckBoxHCV);
-		appExaminationAllDataPanel.add(appExaminationDataPanel);
+		// TODO wyœrodkowanie checkboxów
+		JPanel appExaminationResultPanel = new JPanel();
+		appExaminationResultPanel.setLayout(new GridLayout(4,1));
+		appExaminationResultPanel.add(appExaminationResult);
+		appExaminationResultPanel.add(appCheckBoxHBS);
+		appExaminationResultPanel.add(appCheckBoxHIV);
+		appExaminationResultPanel.add(appCheckBoxHCV);
+		appExaminationAllDataPanel.add(appExaminationResultPanel,0);
 		
-		JPanel appSelectDatePanel = new JPanel();
-		appSelectDatePanel.setLayout(new BorderLayout());
-		
-		appSelectDatePanel.add(appButtonDateSet, BorderLayout.PAGE_END);
-		appSelectDatePanel.add(dateCalendar, BorderLayout.CENTER);
-		JPanel appDateViewPanel = new JPanel();
-		appDateViewPanel.setLayout(new GridLayout(0, 2));
-		appDateViewPanel.add(appLabelDate,0);
+		JPanel appExaminationDatePanel = new JPanel();
+		appExaminationDatePanel.setLayout(new GridLayout(4,0));
+		appExaminationDatePanel.add(appLabelDate, 0);
 		appLabelExamDate.setText(readCalendarDate().toString());
-		appDateViewPanel.add(appLabelExamDate,1);
-		appSelectDatePanel.add(appDateViewPanel, BorderLayout.PAGE_START);
-		appExaminationAllDataPanel.add(appSelectDatePanel);
+		appLabelExamDate.setFont(new Font("Arial", Font.BOLD, 22));
+		appExaminationDatePanel.add(appLabelExamDate,1);
+		appExaminationDatePanel.add(appCalendarIcon);
+		
+		appExaminationAllDataPanel.add(appExaminationDatePanel);
 			
 		//set patients list view panel
 		appPatientsListPanel.setLayout(new BorderLayout());
@@ -279,6 +273,7 @@ public class AppView extends JFrame{
 		appRadioButtonWoman.addActionListener(c);
 		appButtonDateSet.addActionListener(c);
 		appTableList.addMouseListener(c);
+		appCalendarIcon.addActionListener(c);
 	}
 	
 	//BUTTONS VIEWS
@@ -290,37 +285,41 @@ public class AppView extends JFrame{
 		appButtonExaminationSave.setEnabled(true);
 	}
 	
+	public void setListDeleteButtonDisable(){
+		appButtonListDelete.setEnabled(false);
+	}
+	
 	//VIEW METHODS
 	// Patient View
-	public Patient readPatientView() {
+	public Patient readPatientView() throws AppException {
 		Patient newPatient = new Patient();
 		if(utils.isText(appTextFieldName.getText()))
 			newPatient.setName_(appTextFieldName.getText());
 		else {
-			//rzuc wyjatkiem
+			throw new AppException("Podano b³êdne imiê");
 		}
 		if(utils.isText(appTextFieldSurname.getText()))
 			newPatient.setLast_name_(appTextFieldSurname.getText());
 		else {
-			//rzuc wyjatkiem
+			throw new AppException("Podano b³êdne nazwisko");
 		}
 		String id_num = appTextFieldID.getText();
 		if(utils.isNumber(id_num)){
 			if(id_num.length() == 11)
 				newPatient.setID_num_(id_num);
 			else {
-				//rzuc wyjatkiem
+				throw new AppException("Podano z krótki numer PESEL");
 			}
 		}
 		else {
-			//rzuc wyjatkiem
+			throw new AppException("Podano z³y numer PESEL");
 		}
 		if(appRadioButtonMan.isSelected())
 			newPatient.setSex_(false);
 		else if(appRadioButtonWoman.isSelected())
 			newPatient.setSex_(true);
 		else {
-			//rzuc wyjatkiem
+			throw new AppException("Proszê wybraæ p³eæ");
 		}
 		newPatient.setInsurance_(appComboBoxInsurance.getSelectedIndex());
 		return newPatient;
@@ -446,6 +445,27 @@ public class AppView extends JFrame{
 	
 	public void clearPatientList(){
 		appTableList.removeAll();
+	}
+	
+	public void clearListSelection() {
+		appTableList.clearSelection();
+	}
+	
+	public void createCalendarFrame(){
+		appCalendarFrame.setSize(300,300);
+		appCalendarFrame.setResizable(false);
+		appCalendarFrame.setLocationRelativeTo(null);
+		appCalendarFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		appCalendarFrame.setVisible(true);
+		JPanel appCalendarPanel = new JPanel();
+		appCalendarPanel.setLayout(new BorderLayout(0, 0));
+		appCalendarPanel.add(dateCalendar, BorderLayout.CENTER);
+		appCalendarPanel.add(appButtonDateSet, BorderLayout.PAGE_END);
+		appCalendarFrame.add(appCalendarPanel);
+	}
+	
+	public void closeCalendarFrame(){
+		appCalendarFrame.dispose();
 	}
 
 }

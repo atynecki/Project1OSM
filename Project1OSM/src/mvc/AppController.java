@@ -1,12 +1,9 @@
 package mvc;
-import data.*;
 
-import java.awt.Component;
+import data.*;
+import application.*;
 import java.awt.event.*;
 
-import javax.swing.JFrame;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 //realizuje interakcjê z u¿ytkownikiem, aktualizuje model i podmienia widok
 public class AppController implements ActionListener, MouseListener{
 	private AppModel cModel = null;
@@ -17,11 +14,11 @@ public class AppController implements ActionListener, MouseListener{
 		this.cModel = model;
 		this.cView = view;
 		this.cModel.setController(this);
-		current_patient_number = 0;
+		current_patient_number = -1;
 	}
 	
 	@Override
-	public void actionPerformed (ActionEvent e){
+	public void actionPerformed (ActionEvent e) {
 		String actionCommand = e.getActionCommand();
 		Object actionSource = e.getSource();
 		
@@ -33,27 +30,44 @@ public class AppController implements ActionListener, MouseListener{
 			case "Anuluj":
 				if(actionSource.equals(cView.getAppButtonPatientCancel()))
 					cView.cleanPatientView();
+				current_patient_number = -1;
+					cView.clearListSelection();
 				if(actionSource.equals(cView.getAppButtonExaminationCancel()))
 					cView.cleanExaminationView();
 				break;
 			
 			case "Zapisz":
 				if(actionSource.equals(cView.getAppButtonPatientSave())){
-					Patient new_patient  = new Patient(cView.readPatientView(),null);
-					//TODO sprawdzenie czy pacjent ju¿ istnieje
-					//if(!cModel.hasPatient(new_patient)){
-						cModel.setPatient_(new_patient);
-						cView.addRowToPatientList();
-						cView.repaintPatientList(cModel.getPatient_list_());
-					//}
-					//else{
-						//System.out.println("Pacjent istnieje na liœcie");
-					//}
+					try {
+						Patient new_patient  = new Patient(cView.readPatientView(),null);
+						if(current_patient_number != -1){
+							new_patient.setExam_(cModel.getExam_(current_patient_number));
+							cModel.replacePatientAt(current_patient_number, new_patient);
+							cView.repaintPatientList(cModel.getPatient_list_());
+						}
+						else {
+							if(!cModel.hasPatient(new_patient)){
+								cModel.setPatient_(new_patient);
+								cView.addRowToPatientList();
+								cView.repaintPatientList(cModel.getPatient_list_());
+							}
+							else{
+								
+							}
+						}
+					} catch (AppException exception){
+						exception.show_exception();
+					}
 				}
-				
 				else if(actionSource.equals(cView.getAppButtonExaminationSave())){
+					if(current_patient_number != -1){
 						cModel.setExam_(cView.readExaminationView(),current_patient_number);
 						cView.setExamCheckBoxSelected(current_patient_number);
+					}
+					else {
+						//rzuæ wyjatkiem
+						System.out.println("Wybierz pacjenta z listy");
+					}
 				}
 				break;
 			
@@ -65,15 +79,14 @@ public class AppController implements ActionListener, MouseListener{
 			case "Usuñ":
 				cView.cleanPatientView();
 				cView.cleanExaminationView();
-				if(!cModel.getPatient_list_().isEmpty()){
-					cModel.erasePatient(current_patient_number);
-					cView.repaintPatientList(cModel.getPatient_list_());
-					cView.removeRowFromPatientList();
+				cModel.erasePatient(current_patient_number);
+				cView.repaintPatientList(cModel.getPatient_list_());
+				cView.removeRowFromPatientList();
+				current_patient_number = -1;
+				if(cModel.getPatient_list_().isEmpty()){
+					cView.setListDeleteButtonDisable();
 				}
-				else{
-					//rzuæ wyj¹tkiem
-					System.out.println("Lista jest pusta");
-				}
+				cView.clearListSelection();
 				break;
 			
 			case "Mê¿czyzna":
@@ -92,6 +105,10 @@ public class AppController implements ActionListener, MouseListener{
 			
 			case "Ustaw":
 				cView.setCalendarDate(cView.readCalendarDate());
+				cView.closeCalendarFrame();
+				break;
+			case "Ustaw date":
+				cView.createCalendarFrame();
 				break;
 				
 		}	
