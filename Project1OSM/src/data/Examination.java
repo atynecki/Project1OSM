@@ -1,5 +1,11 @@
 package data;
 
+/**
+ * @class Examination
+ * @brief class representing examination object contains examination result (logic value indicating the presence of the virus)
+ * and examination date
+ */
+
 public class Examination {
 	private Boolean HIV_detect_;
 	private Boolean HCV_detect_;
@@ -7,12 +13,14 @@ public class Examination {
 	
 	private MyDate test_data_ = new MyDate();
 	
+	/** default constructors */
 	public Examination(){
 		HIV_detect_ = false;
 		HCV_detect_ = false;
 		HBS_detect_ = false;
 	}
 	
+	/** parameterized constructors */
 	public Examination(Boolean HIV, Boolean HCV, Boolean HBS, MyDate test_date){
 		HIV_detect_ = HIV;
 		HCV_detect_ = HCV;
@@ -20,6 +28,7 @@ public class Examination {
 		test_data_ = test_date;
 	}
 	
+	/** getters and setters */
 	public Boolean getHIV_detect_() {
 		return HIV_detect_;
 	}
@@ -52,7 +61,12 @@ public class Examination {
 		this.test_data_ = test_data_;
 	}
 	
-	/** method for compare examinations */
+	/**
+	 * @fn equals()
+	 * @brief method for compare examination data
+	 * @param examination data to compare
+	 * @return true if examination match
+	 */
 	public boolean equals(Examination e){
 		if(e==null || this.HBS_detect_ !=e.HBS_detect_ || this.HCV_detect_ !=e.HCV_detect_ || this.HIV_detect_ !=e.HIV_detect_)
 			return false;
@@ -60,7 +74,12 @@ public class Examination {
 			return false;
 	}
 	
-	/** methods return object representation w String text */
+	/**
+	 * @fn toString()
+	 * @brief method return object representation in string
+	 * @return string representation of object
+	 */
+	@Override
 	public String toString(){
 		return ("HIV: " + String.valueOf(HIV_detect_) + "; " + "HBS: " + String.valueOf(HBS_detect_) + "; " + "HCV: " + String.valueOf(HCV_detect_));
 	}

@@ -3,17 +3,23 @@ package mvc;
 import java.util.*;
 import data.*;
 
-//reprezentuje dane oraz stan aplikacji i zapewnia do nich dostêp
+/**
+ * @class AppModel
+ * @brief class representing all application date, application state and allows access to them.
+ * Contains list of patients and controller class
+ */
+
 public class AppModel {
 	private ArrayList<Patient> patient_list_ = new ArrayList<Patient>();
 	private AppController controller_;
 	
+	/** default constructors */
 	public AppModel (){
 		patient_list_.clear();
 		controller_ = null;
 	}
 	
-	/// GETTERS END SETTERS
+	/** getters and setters */
 	public void setPatient_(Patient patient) {
 		this.patient_list_.add(patient);
 	}
@@ -42,15 +48,31 @@ public class AppModel {
 		this.controller_ = c;
 	}
 
-	/// METHODS
+	/**
+	 * @fn erasePatient()
+	 * @brief remove patient from list at index
+	 * @param index
+	 */
 	public void erasePatient(int index){
 		patient_list_.remove(index);
 	}
 	
+	/**
+	 * @fn replacePatientAt()
+	 * @brief replace patient data with new patient at index
+	 * @param index
+	 * @param new patient data
+	 */
 	public void replacePatientAt(int index, Patient new_patient){
 		patient_list_.set(index, new_patient);
 	}
 	
+	/**
+	 * @fn hasPatient()
+	 * @brief check if patient is on the list
+	 * @param patient data to check
+	 * @return true if patient is on the list 
+	 */
 	public Boolean hasPatient(Patient p){
 		for(Patient patient: patient_list_){
 			if(patient.equals(p))
@@ -59,6 +81,10 @@ public class AppModel {
 		return false;
 	}
 	
+	/**
+	 * @fn clearPatientList()
+	 * @brief clear patient list
+	 */
 	public void clearPatientList(){
 		patient_list_.clear();
 	}

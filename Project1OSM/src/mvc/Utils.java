@@ -1,6 +1,18 @@
 package mvc;
 
-public class utils {
+/**
+ * @class Utils
+ * @brief class contains static utils methods for application
+ */
+
+public class Utils {
+	
+	/**
+	 * @fn isText()
+	 * @brief check if string line contain text
+	 * @param string line
+	 * @return true if line contain text
+	 */
 	static boolean isText (String line){
 		if(line.isEmpty())
 			return false;
@@ -11,6 +23,12 @@ public class utils {
 		return true;
 	}
 	
+	/**
+	 * @fn isNumber()
+	 * @brief check if string line contain number
+	 * @param string line
+	 * @return true if line contain number
+	 */
 	static boolean isNumber (String line){
 		if(line.isEmpty())
 			return false;

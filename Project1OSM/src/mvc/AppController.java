@@ -1,15 +1,21 @@
 package mvc;
 
 import data.*;
-import application.*;
 import java.awt.event.*;
 
-//realizuje interakcjê z u¿ytkownikiem, aktualizuje model i podmienia widok
+/**
+ * @class AppController
+ * @brief class representing application control. Implements user interaction, model and views update.
+ * Contains AppModel, AppView and current patient number.
+ * @implements ActionListener, MouseListener
+ */
+
 public class AppController implements ActionListener, MouseListener{
 	private AppModel cModel = null;
 	private AppView cView = null;
 	private int current_patient_number;
 	
+	/** parameterized constructors */
 	public AppController (AppModel model, AppView view){
 		this.cModel = model;
 		this.cView = view;
@@ -17,6 +23,11 @@ public class AppController implements ActionListener, MouseListener{
 		current_patient_number = -1;
 	}
 	
+	/**
+	 * @fn actionPerformed()
+	 * @brief action event handler
+	 * @param action event
+	 */
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		String actionCommand = e.getActionCommand();
@@ -52,7 +63,7 @@ public class AppController implements ActionListener, MouseListener{
 								cView.repaintPatientList(cModel.getPatient_list_());
 							}
 							else{
-								cView.setInfoMessageDialog("Pacjent" + new_patient.toString() + "ju¿ istnieje");
+								cView.setInfoMessageDialog("Pacjent " + new_patient.toString() + " ju¿ istnieje");
 							}
 						}
 					} catch (AppException exception){
@@ -116,6 +127,11 @@ public class AppController implements ActionListener, MouseListener{
 		}	
 	}
 
+	/**
+	 * @fn mouseClicked()
+	 * @brief mouse clicked event handler
+	 * @param mouse clicked event
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource() == cView.getAppTableList()){

@@ -1,79 +1,80 @@
 package mvc;
 
 import data.*;
-import application.*;
 
 import java.util.*;
 import java.awt.*;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JCalendar;
 
-//wyœwietla graficzn¹ informacji zawartych w modelu
+/**
+ * @class AppView
+ * @brief class representing application views. Contains all GUI components and presented graphically AppModel class
+ * @extends JFrame class
+ */
 
 public class AppView extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
-	//menu view components
+	/** menu view components */
 	private JMenuBar appMenuBar = new JMenuBar();
 	private JMenu appMenu = new JMenu("Aplikacja");
 	private JMenuItem appMenuItem = new JMenuItem("Zamknij");
 	
-	//main window panels
+	/** main window panels */
 	private JPanel appLeftPanel = new JPanel();
 	private JPanel appRightPanel = new JPanel();
 	private JPanel appPatientPanel = new JPanel();
 	private JPanel appExaminationPanel = new JPanel();
 	private JPanel appPatientsListPanel = new JPanel();
 	
-	//patient panel components
-	//labels
+	/** patient panel components */
+	/* labels */
 	private JLabel appLabelName = new JLabel("Imiê:", JLabel.CENTER);
 	private JLabel appLabelSurname = new JLabel("Nazwisko:", JLabel.CENTER);
 	private JLabel appLabelID = new JLabel("Pesel:", JLabel.CENTER);
 	private JLabel appLabelSex = new JLabel("P³eæ:", JLabel.CENTER);
 	private JLabel appLabelInsurance = new JLabel("Ubezpieczenie:", JLabel.CENTER);
-	//text fields
+	/* text fields */
 	private JTextField appTextFieldName = new JTextField(15);
 	private JTextField appTextFieldSurname = new JTextField(15);
 	private JTextField appTextFieldID = new JTextField(15);
-	//radio buttons
+	/* radio buttons */
 	private JRadioButton appRadioButtonWoman = new JRadioButton("Kobieta");
 	private JRadioButton appRadioButtonMan = new JRadioButton("Mê¿czyzna");
-	//combo box
+	/* combo box */
 	private JComboBox<String> appComboBoxInsurance = new JComboBox<String>();
-	//action buttons
+	/* action buttons */
 	private JButton appButtonPatientSave = new JButton("Zapisz");
 	private JButton appButtonPatientCancel = new JButton("Anuluj");
 	
-	//examination panel components
-	//label
+	/** examination panel components */
+	/* label */
 	private JLabel appLabelDate = new JLabel("Data [day/month/year]:", JLabel.CENTER);
 	private JLabel appLabelExamDate = new JLabel("", JLabel.CENTER);
 	private JLabel appExaminationResult = new JLabel("Wynik:", JLabel.CENTER);
-	//calendar frame
+	/* calendar frame */
 	JFrame appCalendarFrame = new JFrame("Ustaw date");
 	private JCalendar dateCalendar = new JCalendar();
 	private JButton appButtonDateSet = new JButton("Ustaw");
-	//check boxes
+	/* check boxes */
 	private JCheckBox appCheckBoxHBS = new JCheckBox("HBS");
 	private JCheckBox appCheckBoxHIV = new JCheckBox("HIV");
 	private JCheckBox appCheckBoxHCV = new JCheckBox("HCV");
-	//action buttons
+	/* action buttons */
 	private JButton appCalendarIcon = new JButton("Ustaw date", new ImageIcon("images/JCalendarIcon.gif"));
 	private JButton appButtonExaminationSave = new JButton("Zapisz");
 	private JButton appButtonExaminationCancel = new JButton("Anuluj");
 	
-	//patients list components
-	//table
+	/** patients list components */
+	/* table */
 	private String [] columnNames = { "Imiê i Nazwisko", "PESEL", "P³eæ", "Ubezpieczenie", "Badanie"};
 	private Object [] [] data = new Object[0] [5];
 	DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-	private JTable appTableList = new JTable(tableModel)
-	{
-		 private static final long serialVersionUID = 1L;
+	private JTable appTableList = new JTable(tableModel) {
+		private static final long serialVersionUID = 1L;
 		 
 		@Override
 		public Class<?> getColumnClass(int column)
@@ -99,28 +100,28 @@ public class AppView extends JFrame{
 		}
 	};
 	private JScrollPane appScrollPaneList = new JScrollPane(appTableList);
-	//action buttons
+	/* action buttons */
 	private JButton appButtonListAdd = new JButton("Dodaj");
 	private JButton appButtonListDelete = new JButton("Usuñ");
-	//patient number labels & text
+	/* patient number labels & text */
 	private JLabel appLabelPatientsNumber = new JLabel("Liczba pacjentów:");
 	private JTextField appTextFieldPatientsNumber = new JTextField(4);
 	
+	/** default constructors (all views set) */
 	public AppView(){
-		
-		//set main view
+		/** set main view */
 		this.setTitle("Rejestracja wyników badañ");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1200,600);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 
-		//set menu view
+		/** set menu view */
 		appMenuBar.add(appMenu);
 		appMenu.add(appMenuItem);
 		setJMenuBar(appMenuBar);
 		
-		//set main view panels
+		/** set main view panels */
 		appPatientPanel.setBorder(BorderFactory.createTitledBorder("Dane pacjenta"));
 		appExaminationPanel.setBorder(BorderFactory.createTitledBorder("Badanie"));
 		appPatientsListPanel.setBorder(BorderFactory.createTitledBorder("Lista pacjentów"));
@@ -139,7 +140,7 @@ public class AppView extends JFrame{
 		appRightPanel.setLayout(appRightPanelLayout);
 		appRightPanel.add(appPatientsListPanel);
 		
-		//set patient view panel
+		/** set patient view panel */
 		appPatientPanel.setLayout(new BorderLayout());
 		
 		JPanel appPatientDataPanel = new JPanel();
@@ -177,7 +178,7 @@ public class AppView extends JFrame{
 		appActionBar1.add(appButtonPatientCancel);
 		appPatientPanel.add(appActionBar1, BorderLayout.PAGE_END);
 		
-		//set examination view panel
+		/** set examination view panel */
 		appExaminationPanel.setLayout(new BorderLayout());
 		
 		JPanel appActionBar2 = new JPanel();
@@ -210,7 +211,7 @@ public class AppView extends JFrame{
 		
 		appExaminationAllDataPanel.add(appExaminationDatePanel);
 			
-		//set patients list view panel
+		/** set patients list view panel */
 		appPatientsListPanel.setLayout(new BorderLayout());
 		appPatientsListPanel.add(appTableList);
 		appScrollPaneList.setViewportView(appTableList);
@@ -233,8 +234,7 @@ public class AppView extends JFrame{
 		appPatientsListPanel.add(appActionBar3, BorderLayout.PAGE_END);
 	}
 	
-
-	//GETTERS
+	/** getters */
 	public JButton getAppButtonPatientSave() {
 		return appButtonPatientSave;
 	}
@@ -259,12 +259,15 @@ public class AppView extends JFrame{
 		return appRadioButtonMan;
 	}
 
-
 	public JTable getAppTableList() {
 		return appTableList;
 	}
 
-	//SET CONTROLLER 
+	/**
+	 * @fn setController()
+	 * @brief add listener for all active components
+	 * @param AppControler class contains listeners 
+	 */
 	public void setController(AppController c) {
 		appMenuItem.addActionListener(c);
 		appButtonPatientSave.addActionListener(c);
@@ -280,35 +283,52 @@ public class AppView extends JFrame{
 		appCalendarIcon.addActionListener(c);
 	}
 	
-	//BUTTONS VIEWS
+	/**
+	 * @fn setPatientSaveButtonEnable()
+	 * @brief set patient save button enable
+	 */
 	public void setPatientSaveButtonEnable() {
 		appButtonPatientSave.setEnabled(true);
 	}
 	
+	/**
+	 * @fn setExaminationSaveButtonEnable()
+	 * @brief set examination save button enable
+	 */
 	public void setExaminationSaveButtonEnable() {
 		appButtonExaminationSave.setEnabled(true);
 	}
 	
-	public void setListDeleteButtonDisable(){
+	/**
+	 * @fn setListDeleteButtonDisable()
+	 * @brief set list delete button disable
+	 */
+	public void setListDeleteButtonDisable() {
 		appButtonListDelete.setEnabled(false);
 	}
 	
-	//VIEW METHODS
-	// Patient View
+	/** PATIENT VIEW */
+	
+	/**
+	 * @fn readPatientView()
+	 * @brief read data from patient view
+	 * @return patient object
+	 * @throws AppException
+	 */
 	public Patient readPatientView() throws AppException {
 		Patient newPatient = new Patient();
-		if(utils.isText(appTextFieldName.getText()))
+		if(Utils.isText(appTextFieldName.getText()))
 			newPatient.setName_(appTextFieldName.getText());
 		else {
 			throw new AppException("Podano b³êdne imiê");
 		}
-		if(utils.isText(appTextFieldSurname.getText()))
+		if(Utils.isText(appTextFieldSurname.getText()))
 			newPatient.setLast_name_(appTextFieldSurname.getText());
 		else {
 			throw new AppException("Podano b³êdne nazwisko");
 		}
 		String id_num = appTextFieldID.getText();
-		if(utils.isNumber(id_num)){
+		if(Utils.isNumber(id_num)){
 			if(id_num.length() == 11)
 				newPatient.setID_num_(id_num);
 			else {
@@ -329,7 +349,12 @@ public class AppView extends JFrame{
 		return newPatient;
 	}
 	
-	public void setPatientView(Patient p){
+	/**
+	 * @fn setPatientView()
+	 * @brief set data to patient view
+	 * @param patient object
+	 */
+	public void setPatientView(Patient p) {
 		appTextFieldName.setText(p.getName_());
 		appTextFieldSurname.setText(p.getLast_name_());
 		appTextFieldID.setText(p.getID_num_());
@@ -346,6 +371,10 @@ public class AppView extends JFrame{
 		appComboBoxInsurance.setSelectedIndex(p.getInsurance_());
 	}
 	
+	/**
+	 * @fn cleanPatientView()
+	 * @brief clean patient view
+	 */
 	public void cleanPatientView() {
 		appTextFieldName.setText("");
 		appTextFieldSurname.setText("");
@@ -357,8 +386,39 @@ public class AppView extends JFrame{
 		appComboBoxInsurance.setSelectedIndex(2);
 	}
 	
-	//Examination view
-	public MyDate readCalendarDate(){
+	/** EXAMINATION VIEW */
+	
+	/**
+	 * @fn createCalendarFrame()
+	 * @brief create calendar frame to set date
+	 */
+	public void createCalendarFrame() {
+		appCalendarFrame.setSize(300,300);
+		appCalendarFrame.setResizable(false);
+		appCalendarFrame.setLocationRelativeTo(null);
+		appCalendarFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		appCalendarFrame.setVisible(true);
+		JPanel appCalendarPanel = new JPanel();
+		appCalendarPanel.setLayout(new BorderLayout(0, 0));
+		appCalendarPanel.add(dateCalendar, BorderLayout.CENTER);
+		appCalendarPanel.add(appButtonDateSet, BorderLayout.PAGE_END);
+		appCalendarFrame.add(appCalendarPanel);
+	}
+	
+	/**
+	 * @fn closeCalendarFrame()
+	 * @brief close calendar frame
+	 */
+	public void closeCalendarFrame() {
+		appCalendarFrame.dispose();
+	}
+	
+	/**
+	 * @fn readCalendarDate()
+	 * @brief read data from calendar view
+	 * @return MyDate object
+	 */
+	public MyDate readCalendarDate() {
 		MyDate current_date = new MyDate();
 		current_date.setDay_(dateCalendar.getDayChooser().getDay());
 		current_date.setMonth_(dateCalendar.getMonthChooser().getMonth());
@@ -367,11 +427,21 @@ public class AppView extends JFrame{
 		return current_date;
 	}
 	
+	/**
+	 * @fn setCalendarDate()
+	 * @brief set date to calendar view
+	 * @param MyDate object
+	 */
 	public void setCalendarDate(MyDate date){
 		appLabelExamDate.setText(date.toString());
 	}
 	
-	public Examination readExaminationView(){
+	/**
+	 * @fn readExaminationView()
+	 * @brief read data from examination view
+	 * @return Examination object
+	 */
+	public Examination readExaminationView() {
 		Examination newExamination = new Examination();
 		newExamination.setTest_data_(readCalendarDate());
 		newExamination.setHBS_detect_(appCheckBoxHBS.isSelected());
@@ -380,6 +450,11 @@ public class AppView extends JFrame{
 		return newExamination;
 	}
 	
+	/**
+	 * @fn setExaminationView()
+	 * @brief set examination result to view
+	 * @param Examination object
+	 */
 	public void setExaminationView (Examination exam){
 		if(exam.getHBS_detect_() == true)
 			appCheckBoxHBS.setSelected(true);
@@ -398,13 +473,23 @@ public class AppView extends JFrame{
 		setCalendarDate(exam.getTest_data_());
 	}
 	
+	/**
+	 * @fn cleanExaminationView()
+	 * @brief clean examination view
+	 */
 	public void cleanExaminationView() {
 		appCheckBoxHBS.setSelected(false);
 		appCheckBoxHCV.setSelected(false);
 		appCheckBoxHIV.setSelected(false);
 	}
 	
-	//Patient List View
+	/** PATIENT LIST VIEW */
+	
+	/**
+	 * @fn repaintPatientList()
+	 * @brief update patient list
+	 * @param patient list
+	 */
 	public void repaintPatientList(ArrayList<Patient> patient_list){
 		if(patient_list.isEmpty()){
 			appTextFieldPatientsNumber.setText(String.valueOf(0));
@@ -435,45 +520,47 @@ public class AppView extends JFrame{
 		
 	}
 	
-	public void addRowToPatientList(){
+	/**
+	 * @fn addRowToPatientList()
+	 * @brief add empty row to patient list
+	 */
+	public void addRowToPatientList() {
 		tableModel.addRow(new Object[] {null, null, null, null, null});
 	}
 	
-	public void removeRowFromPatientList(){
+	/**
+	 * @fn removeRowFromPatientList()
+	 * @brief remove row from patient list
+	 */
+	public void removeRowFromPatientList() {
 		tableModel.removeRow(tableModel.getRowCount()-1);
 	}
 	
+	/**
+	 * @fn setExamCheckBoxSelected()
+	 * @brief set examination check box on patient list at patient number
+	 * @param patient number
+	 */
 	public void setExamCheckBoxSelected (int patient_num){
 		appTableList.setValueAt(true, patient_num, 4);
 	}
 	
-	public void clearPatientList(){
-		appTableList.removeAll();
-	}
-	
+	/**
+	 * @fn clearListSelection()
+	 * @brief clear current patient selection at patient list
+	 */
 	public void clearListSelection() {
 		appTableList.clearSelection();
 	}
 	
-	public void createCalendarFrame(){
-		appCalendarFrame.setSize(300,300);
-		appCalendarFrame.setResizable(false);
-		appCalendarFrame.setLocationRelativeTo(null);
-		appCalendarFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		appCalendarFrame.setVisible(true);
-		JPanel appCalendarPanel = new JPanel();
-		appCalendarPanel.setLayout(new BorderLayout(0, 0));
-		appCalendarPanel.add(dateCalendar, BorderLayout.CENTER);
-		appCalendarPanel.add(appButtonDateSet, BorderLayout.PAGE_END);
-		appCalendarFrame.add(appCalendarPanel);
-	}
+	/** APPLICATION MESSAGE */
 	
-	public void closeCalendarFrame(){
-		appCalendarFrame.dispose();
-	}
-	
+	/**
+	 * @fn setInfoMessageDialog()
+	 * @brief display application message
+	 * @param message to display
+	 */
 	public void setInfoMessageDialog(String message){
 		JOptionPane.showMessageDialog(null, message, "Application information", JOptionPane.INFORMATION_MESSAGE);
 	}
-
 }

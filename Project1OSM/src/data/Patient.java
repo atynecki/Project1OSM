@@ -1,27 +1,30 @@
 package data;
 
+/**
+ * @class Patient
+ * @brief class representing patient object contains personal information and examination result. 
+ * @extend Person class
+ */
+
 public class Patient extends Person {
 	private String patient_name_;
 	private Examination exam_;
 	
+	/** default constructors */
 	public Patient(){
 		super();
 		patient_name_ = null;
 		exam_ = null;
 	}
 	
-	public Patient(String name, String last_name, String ID_num, Boolean sex, int insurance){
-		super(name, last_name, ID_num, sex, insurance);
-		patient_name_ = name + last_name;
-		exam_ = null;
-	}
-	
+	/** parameterized constructors */
 	public Patient(Patient p, Examination e){
 		super(p.name_, p.surname_, p.ID_num_, p.sex_, p.insurance_);
 		patient_name_ = p.name_ + " " + p.surname_;
 		exam_ = e;
 	}
 	
+	/** getters and setters */
 	public String getPatient_name_() {
 		return patient_name_;
 	}
@@ -38,7 +41,12 @@ public class Patient extends Person {
 		this.exam_ = exam_;
 	}
 	
-	/** method for compare ID number of patients */
+	/**
+	 * @fn equals()
+	 * @brief method for compare ID number of patients
+	 * @param patient data to compare
+	 * @return true if ID number match
+	 */
 	public boolean equals(Patient p){
 		if(p==null || !(this.ID_num_.equals(p.ID_num_)))
 			return false;
