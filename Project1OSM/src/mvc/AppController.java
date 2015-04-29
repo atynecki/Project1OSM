@@ -90,16 +90,21 @@ public class AppController implements ActionListener, MouseListener{
 				break;
 				
 			case "Usuñ":
-				cView.cleanPatientView();
-				cView.cleanExaminationView();
-				cModel.erasePatient(current_patient_number);
-				cView.repaintPatientList(cModel.getPatient_list_());
-				cView.removeRowFromPatientList();
-				current_patient_number = -1;
-				if(cModel.getPatient_list_().isEmpty()){
-					cView.setListDeleteButtonDisable();
+				if(current_patient_number == -1){
+					cView.setInfoMessageDialog("Proszê wybraæ pacjenta z listy");
 				}
-				cView.clearListSelection();
+				else {
+					cView.cleanPatientView();
+					cView.cleanExaminationView();
+					cModel.erasePatient(current_patient_number);
+					cView.repaintPatientList(cModel.getPatient_list_());
+					cView.removeRowFromPatientList();
+					current_patient_number = -1;
+					if(cModel.getPatient_list_().isEmpty()){
+						cView.setListDeleteButtonDisable();
+					}
+					cView.clearListSelection();
+				}
 				break;
 			
 			case "Mê¿czyzna":

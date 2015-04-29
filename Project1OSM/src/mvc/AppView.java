@@ -4,6 +4,7 @@ import data.*;
 
 import java.util.*;
 import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,11 +33,11 @@ public class AppView extends JFrame{
 	
 	/** patient panel components */
 	/* labels */
-	private JLabel appLabelName = new JLabel("Imiê:", JLabel.CENTER);
-	private JLabel appLabelSurname = new JLabel("Nazwisko:", JLabel.CENTER);
-	private JLabel appLabelID = new JLabel("Pesel:", JLabel.CENTER);
-	private JLabel appLabelSex = new JLabel("P³eæ:", JLabel.CENTER);
-	private JLabel appLabelInsurance = new JLabel("Ubezpieczenie:", JLabel.CENTER);
+	private JLabel appLabelName = new JLabel("Imiê:");
+	private JLabel appLabelSurname = new JLabel("Nazwisko:");
+	private JLabel appLabelID = new JLabel("Pesel:");
+	private JLabel appLabelSex = new JLabel("P³eæ:");
+	private JLabel appLabelInsurance = new JLabel("Ubezpieczenie:");
 	/* text fields */
 	private JTextField appTextFieldName = new JTextField(15);
 	private JTextField appTextFieldSurname = new JTextField(15);
@@ -52,9 +53,9 @@ public class AppView extends JFrame{
 	
 	/** examination panel components */
 	/* label */
-	private JLabel appLabelDate = new JLabel("Data [day/month/year]:", JLabel.CENTER);
+	private JLabel appLabelDate = new JLabel("Data [dd/mm/yyyy]:", JLabel.CENTER);
 	private JLabel appLabelExamDate = new JLabel("", JLabel.CENTER);
-	private JLabel appExaminationResult = new JLabel("Wynik:", JLabel.CENTER);
+	private JLabel appExaminationResult = new JLabel("Wynik:");
 	/* calendar frame */
 	JFrame appCalendarFrame = new JFrame("Ustaw date");
 	private JCalendar dateCalendar = new JCalendar();
@@ -192,13 +193,17 @@ public class AppView extends JFrame{
 		appExaminationAllDataPanel.setLayout(new GridLayout(0,2));
 		appExaminationPanel.add(appExaminationAllDataPanel);
 		
-		// TODO wyœrodkowanie checkboxów
 		JPanel appExaminationResultPanel = new JPanel();
-		appExaminationResultPanel.setLayout(new GridLayout(4,1));
+		Dimension RigidAreaSize = new Dimension(0,30);
+		appExaminationResultPanel.setLayout(new BoxLayout(appExaminationResultPanel, BoxLayout.Y_AXIS));
 		appExaminationResultPanel.add(appExaminationResult);
+		appExaminationResultPanel.add(Box.createRigidArea(new Dimension(70,30)));
 		appExaminationResultPanel.add(appCheckBoxHBS);
+		appExaminationResultPanel.add(Box.createRigidArea(RigidAreaSize));
 		appExaminationResultPanel.add(appCheckBoxHIV);
+		appExaminationResultPanel.add(Box.createRigidArea(RigidAreaSize));
 		appExaminationResultPanel.add(appCheckBoxHCV);
+		
 		appExaminationAllDataPanel.add(appExaminationResultPanel,0);
 		
 		JPanel appExaminationDatePanel = new JPanel();
@@ -397,12 +402,13 @@ public class AppView extends JFrame{
 		appCalendarFrame.setResizable(false);
 		appCalendarFrame.setLocationRelativeTo(null);
 		appCalendarFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		appCalendarFrame.setVisible(true);
+
 		JPanel appCalendarPanel = new JPanel();
 		appCalendarPanel.setLayout(new BorderLayout(0, 0));
-		appCalendarPanel.add(dateCalendar, BorderLayout.CENTER);
 		appCalendarPanel.add(appButtonDateSet, BorderLayout.PAGE_END);
+		appCalendarPanel.add(dateCalendar, BorderLayout.CENTER);
 		appCalendarFrame.add(appCalendarPanel);
+		appCalendarFrame.setVisible(true);
 	}
 	
 	/**

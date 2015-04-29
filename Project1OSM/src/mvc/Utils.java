@@ -18,6 +18,10 @@ public class Utils {
 			return false;
 		for(int i=0; i<line.length(); i++){
 			if(!(Character.isLetter(line.charAt(i))))
+				if(Character.compare(line.charAt(i), '-') ==0 && i!=0) {
+					;
+				}
+				else
 					return false;
 		}
 		return true;
