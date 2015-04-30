@@ -2,6 +2,7 @@ package mvc;
 
 import data.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 /**
  * @class AppController
@@ -13,6 +14,7 @@ import java.awt.event.*;
 public class AppController implements ActionListener, MouseListener{
 	private AppModel cModel = null;
 	private AppView cView = null;
+	private JFrame calendarView = null;
 	private int current_patient_number;
 	
 	/** parameterized constructors */
@@ -123,10 +125,10 @@ public class AppController implements ActionListener, MouseListener{
 			
 			case "Ustaw":
 				cView.setCalendarDate(cView.readCalendarDate());
-				cView.closeCalendarFrame();
+				cView.closeCalendarFrame(calendarView);
 				break;
 			case "Ustaw date":
-				cView.createCalendarFrame();
+				calendarView = cView.createCalendarFrame();
 				break;
 				
 		}	

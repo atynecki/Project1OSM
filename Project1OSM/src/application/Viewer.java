@@ -1,6 +1,5 @@
 /**
  * @name Viewer
- * @author Artur Tynecki
  * @brief simple program used to save the examination results 
  * @version 1.0
  *

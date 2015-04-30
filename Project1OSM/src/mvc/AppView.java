@@ -57,7 +57,6 @@ public class AppView extends JFrame{
 	private JLabel appLabelExamDate = new JLabel("", JLabel.CENTER);
 	private JLabel appExaminationResult = new JLabel("Wynik:");
 	/* calendar frame */
-	JFrame appCalendarFrame = new JFrame("Ustaw date");
 	private JCalendar dateCalendar = new JCalendar();
 	private JButton appButtonDateSet = new JButton("Ustaw");
 	/* check boxes */
@@ -397,7 +396,8 @@ public class AppView extends JFrame{
 	 * @fn createCalendarFrame()
 	 * @brief create calendar frame to set date
 	 */
-	public void createCalendarFrame() {
+	public JFrame createCalendarFrame() {
+		JFrame appCalendarFrame = new JFrame("Ustaw date");
 		appCalendarFrame.setSize(300,300);
 		appCalendarFrame.setResizable(false);
 		appCalendarFrame.setLocationRelativeTo(null);
@@ -409,14 +409,16 @@ public class AppView extends JFrame{
 		appCalendarPanel.add(dateCalendar, BorderLayout.CENTER);
 		appCalendarFrame.add(appCalendarPanel);
 		appCalendarFrame.setVisible(true);
+		
+		return appCalendarFrame;
 	}
 	
 	/**
 	 * @fn closeCalendarFrame()
 	 * @brief close calendar frame
 	 */
-	public void closeCalendarFrame() {
-		appCalendarFrame.dispose();
+	public void closeCalendarFrame(JFrame calendar) {
+		calendar.dispose();
 	}
 	
 	/**
