@@ -144,9 +144,12 @@ public class AppController implements ActionListener, MouseListener{
 		if(e.getSource() == cView.getAppTableList()){
 			current_patient_number = cView.getAppTableList().getSelectedRow();
 			Patient current_patient = cModel.getPatient_(current_patient_number);
+			cView.cleanPatientView();
 			cView.setPatientView(current_patient);
-			if(current_patient.getExam_() !=null)
+			if(current_patient.getExam_() !=null){
+				cView.cleanExaminationView();
 				cView.setExaminationView(current_patient.getExam_());
+			}
 			else
 				cView.cleanExaminationView();
 		}
